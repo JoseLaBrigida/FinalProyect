@@ -58,7 +58,7 @@ public class Tablero extends JPanel {
     }
     
     public boolean esMovimientoValido(Movimiento move) {
-        
+        //Si son del mismo equipo el movimiento no es valido
         if(mismoEquipo(move.pieza, move.captura)){
             return false;
         }
@@ -72,6 +72,7 @@ public class Tablero extends JPanel {
             return false;
         }
         
+        //Retorna true si las piezas son del mismo equipo
         return p1.esBlanco == p2.esBlanco;
     }
 
