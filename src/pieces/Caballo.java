@@ -17,14 +17,14 @@ public class Caballo extends Pieza {
         super(board);
         this.col = col;
         this.fila = fila;
-        this.xPos = col * board.tileSize;
-        this.yPos = fila * board.tileSize;
+        this.xPos = col * board.tamanioTablero;
+        this.yPos = fila * board.tamanioTablero;
         
         this.esBlanco = esBlanco;
         this.nombre = "Caballo";
         
         this.sprite = plantillaImagen.getSubimage(3 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla).getScaledInstance
-            (board.tileSize, board.tileSize, BufferedImage.SCALE_SMOOTH);
+            (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
 }

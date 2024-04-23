@@ -17,14 +17,14 @@ public class King extends Pieza {
         super(board);
         this.col = col;
         this.fila = fila;
-        this.xPos = col * board.tileSize;
-        this.yPos = fila * board.tileSize;
+        this.xPos = col * board.tamanioTablero;
+        this.yPos = fila * board.tamanioTablero;
         
         this.esBlanco = esBlanco;
         this.nombre = "Rey";
         
         this.sprite = plantillaImagen.getSubimage(0 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla).getScaledInstance
-            (board.tileSize, board.tileSize, BufferedImage.SCALE_SMOOTH);
+            (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
 }
