@@ -24,6 +24,8 @@ public class Pieza {
     public String nombre;
     public int valor;
     
+    public boolean esPrimerMovimiento = true;
+    
     
     BufferedImage plantillaImagen;
     {
@@ -43,6 +45,14 @@ public class Pieza {
     
     public Pieza(Tablero board){
         this.tablero = board;
+    }
+    
+    public boolean esMovimientoValido(int col, int fila){
+        return true;
+    }
+    
+    public boolean movimientoColisionaConPieza(int col, int fila){
+        return false;
     }
     
     public void paint(Graphics2D g2d){

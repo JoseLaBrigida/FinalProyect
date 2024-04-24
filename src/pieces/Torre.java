@@ -27,4 +27,49 @@ public class Torre extends Pieza {
             (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
+    public boolean esMovimientoValido(int col, int fila){
+        return this.col == col || this.fila == fila;
+    }
+    
+    public boolean movimientoColisionaConPieza(int col, int fila){
+        
+        //Izquierda
+        if(this.col > col){
+            for(int c = this.col - 1; c > col; c--){
+                if(tablero.getPieza(c, this.fila) != null){
+                    return true;
+                }
+            }
+        }
+        
+        //Derecha
+        if(this.col < col){
+            for(int c = this.col + 1; c < col; c++){
+                if(tablero.getPieza(c, this.fila) != null){
+                    return true;
+                }
+            }
+        }
+        
+        //Arriba
+        if(this.fila > fila){
+            for(int c = this.fila - 1; c > fila; c--){
+                if(tablero.getPieza(this.col, c) != null){
+                    return true;
+                }
+            }
+        }
+        
+        //Abajo
+        if(this.fila < fila){
+            for(int c = this.fila + 1; c < fila; c++){
+                if(tablero.getPieza(this.col, c) != null){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
 }

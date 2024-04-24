@@ -27,4 +27,48 @@ public class Alfil extends Pieza {
             (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
+    public boolean esMovimientoValido(int col, int fila){
+        return Math.abs(this.col - col) == Math.abs(this.fila - fila);
+    }
+    
+    public boolean movimientoColisionaConPieza(int col, int fila){
+        
+        //Arriba Izquierda
+        if(this.col > col && this.fila > fila){
+            for(int i = 1; i < Math.abs(this.col - col); i++){
+                if(tablero.getPieza(this.col - i, this.fila - i) != null){
+                    return true;
+                }
+            }
+        }
+        
+        //Arriba derecha
+        if(this.col < col && this.fila > fila){
+            for(int i = 1; i < Math.abs(this.col - col); i++){
+                if(tablero.getPieza(this.col + i, this.fila - i) != null){
+                    return true;
+                }
+            }
+        }
+        
+        //Abajo Izquierda
+        if(this.col > col && this.fila < fila){
+            for(int i = 1; i < Math.abs(this.col - col); i++){
+                if(tablero.getPieza(this.col - i, this.fila + i) != null){
+                    return true;
+                }
+            }
+        }
+        
+        //Abajo derecha
+        if(this.col < col && this.fila < fila){
+            for(int i = 1; i < Math.abs(this.col - col); i++){
+                if(tablero.getPieza(this.col + i, this.fila + i) != null){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 }

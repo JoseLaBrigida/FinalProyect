@@ -27,4 +27,8 @@ public class Caballo extends Pieza {
             (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
+    public boolean esMovimientoValido(int col, int fila){
+        return Math.abs(col - this.col) * Math.abs(fila - this.fila) == 2;
+    }
+    
 }

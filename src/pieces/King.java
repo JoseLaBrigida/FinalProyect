@@ -27,4 +27,9 @@ public class King extends Pieza {
             (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
+    public boolean esMovimientoValido(int col, int fila){
+        return Math.abs((col - this.col) * (fila - this.fila)) == 1 || Math.abs(col - this.col) + Math.abs(fila - this.fila) == 1;
+    }
+    
+    
 }

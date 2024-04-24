@@ -27,4 +27,32 @@ public class Peon extends Pieza {
             (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
     
+    public boolean esMovimientoValido(int col, int fila){
+        
+        int indiceColor = esBlanco ? 1 : -1;
+        
+        //Peon 1 cuadrito
+        if(this.col == col && this.fila - indiceColor == fila && tablero.getPieza(col, fila) == null){
+            return true;
+        }
+        
+        //Peon 2 cuadritos
+        if(esPrimerMovimiento && this.col == col && this.fila - indiceColor * 2 == fila && tablero.getPieza(col, fila) == null &&
+                tablero.getPieza(col, fila + indiceColor) == null){
+            return true;
+        }
+        
+        //Captura a la izquierda
+        if(col == this.col - 1 && this.fila - indiceColor == fila && tablero.getPieza(col, fila) != null){
+            return true;
+        }
+        
+        //Captura a la derecha
+        if(col == this.col + 1 && this.fila - indiceColor == fila && tablero.getPieza(col, fila) != null){
+            return true;
+        }
+        
+        return false;
+    }
+    
 }
