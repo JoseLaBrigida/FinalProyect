@@ -52,6 +52,19 @@ public class Peon extends Pieza {
             return true;
         }
         
+        //Captura al paso izquierda
+        if(tablero.getCapturaAlPaso(col, fila) == tablero.capturaAlPaso && col == this.col - 1 && fila == this.fila - indiceColor && 
+                tablero.getPieza(col, fila + indiceColor) != null){
+            return true;
+        }
+        
+        //Captura al paso derecha
+        if(tablero.getCapturaAlPaso(col, fila) == tablero.capturaAlPaso && col == this.col + 1 && fila == this.fila - indiceColor && 
+                tablero.getPieza(col, fila + indiceColor) != null){
+            return true;
+        }
+        
+        
         return false;
     }
     

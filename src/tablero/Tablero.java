@@ -37,6 +37,8 @@ public class Tablero extends JPanel {
     
     Input input = new Input(this);
     
+    public int capturaAlPaso = -1;
+    
     public Tablero(){
         this.setPreferredSize(new Dimension(cols * tamanioTablero, filas * tamanioTablero)); //Dimensiones del tablero
         this.addMouseListener(input);
@@ -103,17 +105,24 @@ public class Tablero extends JPanel {
         
         int indiceColor = move.pieza.esBlanco ? 1 : -1;
         
+        
+        if(getCapturaAlPaso(move.colNueva, move.filaNueva) == capturaAlPaso){
+            move.captura = getPieza(move.colNueva, move.filaNueva + indiceColor);
+        }
+        
+        if(Math.abs(move.pieza.fila - move.filaNueva) == 2){
+            capturaAlPaso = getCapturaAlPaso(move.colNueva, move.filaNueva + indiceColor);
+        }else{
+            capturaAlPaso = -1;
+        }
+        
         //Promocion
         indiceColor = move.pieza.esBlanco ? 0 : 7;
         
         if(move.filaNueva == indiceColor){
             peonPromovido(move);
         }
-        
-        
-        
-        
-        
+
         move.pieza.col = move.colNueva;
         move.pieza.fila = move.filaNueva;
         move.pieza.xPos = move.colNueva * tamanioTablero;
@@ -138,6 +147,12 @@ public class Tablero extends JPanel {
         
         
     }
+
+    public int getCapturaAlPaso(int col, int fila) {
+        return fila * filas + col;
+    }
+    
+    
     
     public void addPieces(){
         
