@@ -22,7 +22,7 @@ import pieces.Torre;
 
 /**
  *
- * @author User
+ * @author Jose Fernandez Cobo
  */
 public class Tablero extends JPanel {
     
@@ -39,7 +39,7 @@ public class Tablero extends JPanel {
     
     public int capturaAlPaso = -1;
     
-    ComprobadorJaque comprobadorJaque = new ComprobadorJaque(this);
+    public ComprobadorJaque comprobadorJaque = new ComprobadorJaque(this);
     
     public Tablero(){
         this.setPreferredSize(new Dimension(cols * tamanioTablero, filas * tamanioTablero)); //Dimensiones del tablero
@@ -92,19 +92,20 @@ public class Tablero extends JPanel {
     
 
     public void hacerMovimiento(Movimiento move) {
-        
-        if(move.pieza.nombre.equals("Peon")){
+
+        if (move.pieza.nombre.equals("Peon")) {
             moverPeon(move);
-        }else{
-            move.pieza.col = move.colNueva;
-            move.pieza.fila = move.filaNueva;
-            move.pieza.xPos = move.colNueva * tamanioTablero;
-            move.pieza.yPos = move.filaNueva * tamanioTablero;
-
-            move.pieza.esPrimerMovimiento = false;
-
-            captura(move); 
+        } else if (move.pieza.nombre.equals("Rey")) {
+            moverRey(move);
         }
+        move.pieza.col = move.colNueva;
+        move.pieza.fila = move.filaNueva;
+        move.pieza.xPos = move.colNueva * tamanioTablero;
+        move.pieza.yPos = move.filaNueva * tamanioTablero;
+
+        move.pieza.esPrimerMovimiento = false;
+
+        captura(move);
     }
     
     private void moverPeon(Movimiento move){
@@ -137,6 +138,22 @@ public class Tablero extends JPanel {
         move.pieza.esPrimerMovimiento = false;
         
         captura(move.captura);
+    }
+    
+    private void moverRey(Movimiento move){
+        
+        if(Math.abs(move.pieza.col - move.colNueva) == 2){
+            Pieza torre;
+            if(move.pieza.col < move.colNueva){
+                torre = getPieza(7, move.pieza.fila);
+                torre.col = 5;
+            }else{
+                torre = getPieza(0, move.pieza.fila);
+                torre.col = 3;
+            }
+            
+            torre.xPos = torre.col * tamanioTablero;
+        }
     }
     
     private void peonPromovido(Movimiento move){
