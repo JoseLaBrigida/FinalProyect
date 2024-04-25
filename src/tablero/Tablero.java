@@ -39,6 +39,8 @@ public class Tablero extends JPanel {
     
     public int capturaAlPaso = -1;
     
+    ComprobadorJaque comprobadorJaque = new ComprobadorJaque(this);
+    
     public Tablero(){
         this.setPreferredSize(new Dimension(cols * tamanioTablero, filas * tamanioTablero)); //Dimensiones del tablero
         this.addMouseListener(input);
@@ -71,7 +73,9 @@ public class Tablero extends JPanel {
         if(move.pieza.movimientoColisionaConPieza(move.colNueva, move.filaNueva)){
             return false;
         }
-        
+        if(comprobadorJaque.reyJaque(move)){
+            return false;
+        }
         
         return true;
     }
@@ -84,6 +88,8 @@ public class Tablero extends JPanel {
         //Retorna true si las piezas son del mismo equipo
         return p1.esBlanco == p2.esBlanco;
     }
+    
+    
 
     public void hacerMovimiento(Movimiento move) {
         
@@ -150,6 +156,17 @@ public class Tablero extends JPanel {
 
     public int getCapturaAlPaso(int col, int fila) {
         return fila * filas + col;
+    }
+    
+    
+    Pieza encontrarRey(boolean esBlanco){
+        for(Pieza pieza : listaPiezas){
+            if(esBlanco == pieza.esBlanco && pieza.nombre.equals("Rey")){
+                return pieza;
+            }
+        }
+        
+        return null;
     }
     
     

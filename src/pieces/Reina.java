@@ -21,7 +21,7 @@ public class Reina extends Pieza {
         this.yPos = row * board.tamanioTablero;
 
         this.esBlanco = isWhite;
-        this.nombre = "Queen";
+        this.nombre = "Reina";
 
         this.sprite = plantillaImagen.getSubimage(1 * escalaPlantilla, isWhite ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla).getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
