@@ -131,5 +131,24 @@ public class ComprobadorJaque {
     private boolean comprobarPeon(Pieza p, Pieza rey, int col, int fila){
        return p != null && !tablero .mismoEquipo(p, rey) && p.nombre.equals("Peon") && !(p.col == col && p.fila == fila);
     }
+    
+    public boolean isGameOver(Pieza rey) {
+        for (Pieza pieza : tablero.listaPiezas) {
+            if (tablero.mismoEquipo(pieza, rey)) {
+                tablero.piezaSeleccionada = pieza == rey ? rey : null;
+                for (int fila = 0; fila < tablero.filas; fila++) {
+                    for (int col = 0; col < tablero.cols; col++) {
+                        Movimiento move = new Movimiento(tablero, pieza, col, fila);
+                        if (tablero.esMovimientoValido(move)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return true;
+    }
 
 }

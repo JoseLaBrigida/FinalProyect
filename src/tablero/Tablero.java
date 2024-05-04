@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javax.swing.JPanel;
 import movimientos.Input;
 import movimientos.Movimiento;
@@ -39,6 +40,9 @@ public class Tablero extends JPanel {
     
     public int capturaAlPaso = -1;
     
+    private boolean esTurnoBlanca = true;
+    private boolean isGameOver = false;
+    
     public ComprobadorJaque comprobadorJaque = new ComprobadorJaque(this);
     
     public Tablero(){
@@ -62,6 +66,17 @@ public class Tablero extends JPanel {
     }
     
     public boolean esMovimientoValido(Movimiento move) {
+        
+        if(isGameOver){
+            return false;
+        }
+        
+        
+        //Comprueba si es tu turno de mover
+        if(move.pieza.esBlanco != esTurnoBlanca){
+            return false;
+        }
+        
         //Si son del mismo equipo el movimiento no es valido
         if(mismoEquipo(move.pieza, move.captura)){
             return false;
@@ -106,6 +121,10 @@ public class Tablero extends JPanel {
         move.pieza.esPrimerMovimiento = false;
 
         captura(move);
+        
+        esTurnoBlanca = !esTurnoBlanca;
+        
+        actualizarJuego();
     }
     
     private void moverPeon(Movimiento move){
@@ -219,6 +238,37 @@ public class Tablero extends JPanel {
         }
     }
     
+    
+    private void actualizarJuego() {
+        Pieza rey = encontrarRey(esTurnoBlanca);
+
+        if (comprobadorJaque.isGameOver(rey)) {
+            if (comprobadorJaque.reyJaque(new Movimiento(this, rey, rey.col, rey.fila))) {
+                System.out.println(esTurnoBlanca ? "Ganan negras!!" : "Ganan blancas!!");
+            } else {
+                System.out.println("AHOGADO!!");
+            }
+            isGameOver = true;
+            
+        }else if(sinPiezas(true) && sinPiezas(false)){
+            System.out.println("Sin piezas para continuar!! EMPATE");
+            isGameOver = true;
+        }
+    }
+    
+    private boolean sinPiezas(boolean esBlanca){
+        ArrayList<String> nombres = listaPiezas.stream()
+                .filter(p -> p.esBlanco == esBlanca)
+                .map(p -> p.nombre)
+                .collect(Collectors.toCollection(ArrayList::new));
+        
+        if(nombres.contains("Reina") || nombres.contains("Torre") || nombres.contains("Peon")){
+            return false;
+        }
+        
+        return nombres.size() < 3;
+    }
+
     public void paintComponent(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         
