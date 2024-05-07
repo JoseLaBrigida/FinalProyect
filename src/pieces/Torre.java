@@ -21,7 +21,7 @@ public class Torre extends Pieza {
         this.yPos = row * board.tamanioTablero;
         
         this.esBlanco = isWhite;
-        this.nombre = "Rook";
+        this.nombre = "Torre";
         
         this.sprite = plantillaImagen.getSubimage(4 * escalaPlantilla, isWhite ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla).getScaledInstance
             (board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
