@@ -132,7 +132,7 @@ public class ComprobadorJaque {
        return p != null && !tablero .mismoEquipo(p, rey) && p.nombre.equals("Peon") && !(p.col == col && p.fila == fila);
     }
     
-    public boolean isGameOver(Pieza rey) {
+    public boolean esJaqueMate(Pieza rey) {
         for (Pieza pieza : tablero.listaPiezas) {
             if (tablero.mismoEquipo(pieza, rey)) {
                 tablero.piezaSeleccionada = pieza == rey ? rey : null;

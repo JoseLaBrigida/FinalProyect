@@ -242,7 +242,7 @@ public class Tablero extends JPanel {
     private void actualizarJuego() {
         Pieza rey = encontrarRey(esTurnoBlanca);
 
-        if (comprobadorJaque.isGameOver(rey)) {
+        if (comprobadorJaque.esJaqueMate(rey)) {
             if (comprobadorJaque.reyJaque(new Movimiento(this, rey, rey.col, rey.fila))) {
                 System.out.println(esTurnoBlanca ? "Ganan negras!!" : "Ganan blancas!!");
             } else {
