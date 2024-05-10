@@ -32,6 +32,8 @@ public class King extends Pieza {
         return Math.abs((col - this.col) * (fila - this.fila)) == 1 || Math.abs(col - this.col) + Math.abs(fila - this.fila) == 1 || puedeEnroque(col, fila);
     }
     
+    
+    
     private boolean puedeEnroque(int col, int fila){
         
         if(this.fila == fila){

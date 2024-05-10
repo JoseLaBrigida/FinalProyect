@@ -68,10 +68,10 @@ public class Tablero extends JPanel {
     public boolean esMovimientoValido(Movimiento move) {
         
         if(isGameOver){
+            System.exit(0);
             return false;
         }
-        
-        
+
         //Comprueba si es tu turno de mover
         if(move.pieza.esBlanco != esTurnoBlanca){
             return false;
@@ -94,6 +94,8 @@ public class Tablero extends JPanel {
         
         return true;
     }
+    
+    
     
     public boolean mismoEquipo(Pieza p1, Pieza p2){
         if(p1 == null || p2 == null){
@@ -219,6 +221,7 @@ public class Tablero extends JPanel {
         listaPiezas.add(new Reina(this, 3, 0, false));
         listaPiezas.add(new King(this, 4, 0, false));
         
+        
         for(int i = 0; i < 8; i++){
             listaPiezas.add(new Peon(this, i, 1, false));
         }
@@ -230,7 +233,7 @@ public class Tablero extends JPanel {
         listaPiezas.add(new Alfil(this, 5, 7, true));
         listaPiezas.add(new Torre(this, 0, 7, true));
         listaPiezas.add(new Torre(this, 7, 7, true));
-        listaPiezas.add(new Reina(this, 3, 7, true));
+//        listaPiezas.add(new Reina(this, 3, 7, true));
         listaPiezas.add(new King(this, 4, 7, true));
         
         for(int i = 0; i < 8; i++){
@@ -246,8 +249,9 @@ public class Tablero extends JPanel {
             if (comprobadorJaque.reyJaque(new Movimiento(this, rey, rey.col, rey.fila))) {
                 System.out.println(esTurnoBlanca ? "Ganan negras!!" : "Ganan blancas!!");
             } else {
-                System.out.println("AHOGADO!!");
+                System.out.println(esTurnoBlanca ? "Ganan negras!!" : "Ganan blancas!!");
             }
+            
             isGameOver = true;
             
         }else if(sinPiezas(true) && sinPiezas(false)){

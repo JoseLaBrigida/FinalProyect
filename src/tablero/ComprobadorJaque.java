@@ -68,26 +68,55 @@ public class ComprobadorJaque {
     }
     
     
+//    private boolean jaquePorAlfil(int col, int fila, Pieza rey, int colRey, int filaRey, int valorCol, int valorFila){
+//        for(int i = 1; i < 8; i++){
+//            if(colRey - (i+valorCol) == col && filaRey - (i+valorFila) == fila){
+//                break;
+//            }
+//            
+//            Pieza pieza = tablero.getPieza(colRey - (i * valorCol), filaRey - (i * valorFila));
+//            if(pieza != null && pieza != tablero.piezaSeleccionada){
+//                if(!tablero.mismoEquipo(pieza, rey) && (pieza.nombre.equals("Alfil") || pieza.nombre.equals("Reina"))){
+//                    return true;
+//                }
+//                
+//                break;
+//            }
+//            
+//        }
+//        
+//        
+//        return false;
+//    }
+    
     private boolean jaquePorAlfil(int col, int fila, Pieza rey, int colRey, int filaRey, int valorCol, int valorFila){
-        for(int i = 1; i < 8; i++){
-            if(colRey - (i+valorCol) == col && filaRey - (i+valorFila) == fila){
-                break;
-            }
-            
-            Pieza pieza = tablero.getPieza(colRey - (i * valorCol), filaRey - (i * valorFila));
-            if(pieza != null && pieza != tablero.piezaSeleccionada){
-                if(!tablero.mismoEquipo(pieza, rey) && (pieza.nombre.equals("Alfil") || pieza.nombre.equals("Reina"))){
-                    return true;
-                }
-                
-                break;
-            }
-            
+    for (int i = 1; i < 8; i++) {
+        int checkCol = colRey + i * valorCol;
+        int checkFila = filaRey + i * valorFila;
+        
+        if (checkCol < 0 || checkCol >= 8 || checkFila < 0 || checkFila >= 8) {
+            // Salir del bucle si las coordenadas están fuera del tablero
+            break;
         }
+
+        Pieza pieza = tablero.getPieza(checkCol, checkFila);
         
-        
-        return false;
+        if (pieza != null) {
+            if (pieza == tablero.piezaSeleccionada) {
+                // Ignorar la pieza seleccionada si es que estamos evaluando movimientos potenciales
+                continue;
+            }
+            if (!tablero.mismoEquipo(pieza, rey) && (pieza.nombre.equals("Alfil") || pieza.nombre.equals("Reina"))) {
+                // Si la pieza es un alfil o una reina y es enemiga, el rey está en jaque
+                return true;
+            }
+            // Si encontramos cualquier pieza que no sea la pieza seleccionada, detenemos la búsqueda
+            break;
+        }
     }
+    return false;
+}
+
     
     private boolean jaquePorCaballo(int col, int fila, Pieza rey, int colRey, int filaRey){
         return comprobarCaballo(tablero.getPieza(colRey - 1, filaRey - 2), rey, col, fila) ||
@@ -129,7 +158,7 @@ public class ComprobadorJaque {
     }
 
     private boolean comprobarPeon(Pieza p, Pieza rey, int col, int fila){
-       return p != null && !tablero .mismoEquipo(p, rey) && p.nombre.equals("Peon") && !(p.col == col && p.fila == fila);
+       return p != null && !tablero.mismoEquipo(p, rey) && p.nombre.equals("Peon") && !(p.col == col && p.fila == fila);
     }
     
     public boolean esJaqueMate(Pieza rey) {
