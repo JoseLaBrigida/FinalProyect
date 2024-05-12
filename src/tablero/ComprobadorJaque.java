@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package tablero;
 
 import movimientos.Movimiento;
@@ -45,10 +42,11 @@ public class ComprobadorJaque {
                 jaquePorPeon(move.colNueva, move.filaNueva, rey, colRey, filaRey) ||
                 jaquePorRey(rey, colRey, filaRey);
     }
+    
  
     private boolean jaquePorTorre(int col, int fila, Pieza rey, int colRey, int filaRey, int valorCol, int valorFila){
         for(int i = 1; i < 8; i++){
-            if(colRey + (i+valorCol) == col && filaRey + (i+valorFila) == fila){
+            if(colRey + (i*valorCol) == col && filaRey + (i*valorFila) == fila){
                 break;
             }
             
@@ -68,54 +66,27 @@ public class ComprobadorJaque {
     }
     
     
-//    private boolean jaquePorAlfil(int col, int fila, Pieza rey, int colRey, int filaRey, int valorCol, int valorFila){
-//        for(int i = 1; i < 8; i++){
-//            if(colRey - (i+valorCol) == col && filaRey - (i+valorFila) == fila){
-//                break;
-//            }
-//            
-//            Pieza pieza = tablero.getPieza(colRey - (i * valorCol), filaRey - (i * valorFila));
-//            if(pieza != null && pieza != tablero.piezaSeleccionada){
-//                if(!tablero.mismoEquipo(pieza, rey) && (pieza.nombre.equals("Alfil") || pieza.nombre.equals("Reina"))){
-//                    return true;
-//                }
-//                
-//                break;
-//            }
-//            
-//        }
-//        
-//        
-//        return false;
-//    }
-    
     private boolean jaquePorAlfil(int col, int fila, Pieza rey, int colRey, int filaRey, int valorCol, int valorFila){
-    for (int i = 1; i < 8; i++) {
-        int checkCol = colRey + i * valorCol;
-        int checkFila = filaRey + i * valorFila;
-        
-        if (checkCol < 0 || checkCol >= 8 || checkFila < 0 || checkFila >= 8) {
-            // Salir del bucle si las coordenadas están fuera del tablero
-            break;
-        }
-
-        Pieza pieza = tablero.getPieza(checkCol, checkFila);
-        
-        if (pieza != null) {
-            if (pieza == tablero.piezaSeleccionada) {
-                // Ignorar la pieza seleccionada si es que estamos evaluando movimientos potenciales
-                continue;
+        for(int i = 1; i < 8; i++){
+            if(colRey - (i*valorCol) == col && filaRey - (i*valorFila) == fila){
+                break;
             }
-            if (!tablero.mismoEquipo(pieza, rey) && (pieza.nombre.equals("Alfil") || pieza.nombre.equals("Reina"))) {
-                // Si la pieza es un alfil o una reina y es enemiga, el rey está en jaque
-                return true;
+            
+            Pieza pieza = tablero.getPieza(colRey - (i * valorCol), filaRey - (i * valorFila));
+            if(pieza != null && pieza != tablero.piezaSeleccionada){
+                if(!tablero.mismoEquipo(pieza, rey) && (pieza.nombre.equals("Alfil") || pieza.nombre.equals("Reina"))){
+                    return true;
+                }
+                
+                break;
             }
-            // Si encontramos cualquier pieza que no sea la pieza seleccionada, detenemos la búsqueda
-            break;
+            
         }
+        
+        
+        return false;
     }
-    return false;
-}
+   
 
     
     private boolean jaquePorCaballo(int col, int fila, Pieza rey, int colRey, int filaRey){

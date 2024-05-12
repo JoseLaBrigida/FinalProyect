@@ -88,11 +88,7 @@ public class Tablero extends JPanel {
         if(move.pieza.movimientoColisionaConPieza(move.colNueva, move.filaNueva)){
             return false;
         }
-        if(comprobadorJaque.reyJaque(move)){
-            return false;
-        }
-        
-        return true;
+        return !comprobadorJaque.reyJaque(move);
     }
     
     
@@ -211,20 +207,22 @@ public class Tablero extends JPanel {
     
     public void addPieces(){
         
+        
+        
         //Aniadimos piezas negras
+        listaPiezas.add(new Reina(this, 3, 0, false));
         listaPiezas.add(new Caballo(this, 1, 0, false));
         listaPiezas.add(new Caballo(this, 6, 0, false));
         listaPiezas.add(new Alfil(this, 2, 0, false));
         listaPiezas.add(new Alfil(this, 5, 0, false));
         listaPiezas.add(new Torre(this, 0, 0, false));
         listaPiezas.add(new Torre(this, 7, 0, false));
-        listaPiezas.add(new Reina(this, 3, 0, false));
         listaPiezas.add(new King(this, 4, 0, false));
-        
         
         for(int i = 0; i < 8; i++){
             listaPiezas.add(new Peon(this, i, 1, false));
         }
+        
         
         //Aniadimos las piezas blancas
         listaPiezas.add(new Caballo(this, 1, 7, true));
@@ -233,7 +231,7 @@ public class Tablero extends JPanel {
         listaPiezas.add(new Alfil(this, 5, 7, true));
         listaPiezas.add(new Torre(this, 0, 7, true));
         listaPiezas.add(new Torre(this, 7, 7, true));
-//        listaPiezas.add(new Reina(this, 3, 7, true));
+        listaPiezas.add(new Reina(this, 3, 7, true));
         listaPiezas.add(new King(this, 4, 7, true));
         
         for(int i = 0; i < 8; i++){
@@ -302,7 +300,6 @@ public class Tablero extends JPanel {
             piece.paint(g2d);
         }
     }
-
     
     
 }
