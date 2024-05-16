@@ -4,12 +4,13 @@
  */
 package tablero;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import javax.swing.JPanel;
 import movimientos.Input;
 import movimientos.Movimiento;
@@ -350,11 +351,12 @@ public class Tablero extends JPanel {
     }
 
 
-    public void paintComponent(Graphics g) {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        //Pinta el tablero
-        //Por cada fila/columna par, se pone el cuadrado de un color, si no es par, se pone de otro
+        // Pinta el tablero
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < cols; c++) {
                 g2d.setColor((f + c) % 2 == 0 ? new Color(226, 200, 180) : new Color(155, 103, 50));
@@ -362,7 +364,7 @@ public class Tablero extends JPanel {
             }
         }
 
-        //Pinta en verde los movimientos disponibles
+        // Pinta en verde los movimientos disponibles
         if (piezaSeleccionada != null) {
             for (int f = 0; f < filas; f++) {
                 for (int c = 0; c < cols; c++) {
@@ -374,10 +376,32 @@ public class Tablero extends JPanel {
             }
         }
 
-        //Pinta todas las piezas
+        // Pinta todas las piezas
         for (Pieza piece : listaPiezas) {
             piece.paint(g2d);
         }
+
+        // Pinta el borde marrón oscuro alrededor del tablero
+        int width = cols * tamanioTablero;
+        int height = filas * tamanioTablero;
+        g2d.setColor(new Color(101, 67, 33)); // Color marrón oscuro
+        g2d.setStroke(new BasicStroke(20));
+        g2d.drawRect(0, 0, width, height);
+
+        // Pinta los números (1-8) y las letras (A-H) alrededor del tablero
+        g2d.setColor(Color.white); // Color de los números y letras
+        g2d.setFont(new Font("Arial", Font.BOLD, 10)); // Ajusta la fuente según sea necesario
+
+        for (int i = 0; i < filas; i++) {
+            // Números a la izquierda del tablero
+            g2d.drawString(String.valueOf(filas - i), 0, i * tamanioTablero + tamanioTablero / 2);
+        }
+
+        for (int i = 0; i < cols; i++) {
+            // Letras en la parte superior del tablero
+            g2d.drawString(String.valueOf((char) ('A' + i)), i * tamanioTablero + tamanioTablero / 2, 10);
+        }
     }
+
 
 }
