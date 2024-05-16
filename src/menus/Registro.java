@@ -6,7 +6,11 @@ package menus;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,10 +53,10 @@ public class Registro extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        inputPass = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         btnVolver = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        inputPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,12 +80,6 @@ public class Registro extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Contraseña:");
 
-        inputPass.setBackground(new java.awt.Color(112, 145, 255));
-        inputPass.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
-        inputPass.setForeground(new java.awt.Color(255, 255, 255));
-        inputPass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inputPass.setBorder(null);
-
         btnVolver.setBackground(new java.awt.Color(60, 78, 234));
         btnVolver.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 14)); // NOI18N
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/previous.png"))); // NOI18N
@@ -95,6 +93,17 @@ public class Registro extends javax.swing.JDialog {
         btnGuardar.setBackground(new java.awt.Color(60, 78, 234));
         btnGuardar.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 14)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        inputPass.setBackground(new java.awt.Color(112, 145, 255));
+        inputPass.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 12)); // NOI18N
+        inputPass.setForeground(new java.awt.Color(255, 255, 255));
+        inputPass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputPass.setBorder(null);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,7 +122,7 @@ public class Registro extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputPass, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(inputPass)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -169,11 +178,47 @@ public class Registro extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        String usuario = null;
+        String pass = null;
+
+        try {
+            usuario = this.inputUsuario.getText();
+            pass = this.inputPass.getText();
+        } catch (Exception e) {
+        }
+
+        if (usuario == null || usuario.isEmpty() || pass == null || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        File directorioUsuarios = new File("src/usuarios");
+        if (!directorioUsuarios.exists()) {
+            directorioUsuarios.mkdir();
+        }
+
+        File archivoUsuario = new File("src/usuarios/" + usuario + ".txt");
+        if (archivoUsuario.exists()) {
+            JOptionPane.showMessageDialog(this, "El usuario ya está registrado. Por favor, inicie sesión.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try (FileWriter writer = new FileWriter(archivoUsuario)) {
+                writer.write("usuario: " + usuario + "*\n");
+                writer.write("contraseña: " + pass + "*\n");
+                writer.write("puntuacion: 0*\n");
+                JOptionPane.showMessageDialog(this, "Registro exitoso! Ahora puede iniciar sesión.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JTextField inputPass;
+    private javax.swing.JPasswordField inputPass;
     private javax.swing.JTextField inputUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
