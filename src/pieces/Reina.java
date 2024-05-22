@@ -35,6 +35,7 @@ public class Reina extends Pieza {
             .getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
 
+
     /**
      * Verifica si el movimiento es válido para la reina.
      * @param col La columna a la que se desea mover la reina.

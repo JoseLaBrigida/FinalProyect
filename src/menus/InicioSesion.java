@@ -28,7 +28,6 @@ public class InicioSesion extends javax.swing.JFrame {
         // Deshabilitar la redimensión, minimizar y cerrar
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        //this.setUndecorated(true); // Esto elimina la barra de título, que incluye los botones de minimizar, maximizar y cerrar
         
         // Añadir un listener para evitar el cierre de la ventana
         this.addWindowListener(new WindowAdapter() {
@@ -81,6 +80,7 @@ public class InicioSesion extends javax.swing.JFrame {
         inputUsuario.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
         inputUsuario.setForeground(new java.awt.Color(255, 255, 255));
         inputUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputUsuario.setText("jose");
         inputUsuario.setBorder(null);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/userLabel.png"))); // NOI18N
@@ -125,6 +125,7 @@ public class InicioSesion extends javax.swing.JFrame {
         inputPass.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 12)); // NOI18N
         inputPass.setForeground(new java.awt.Color(255, 255, 255));
         inputPass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputPass.setText("1234");
         inputPass.setBorder(null);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -258,8 +259,15 @@ public class InicioSesion extends javax.swing.JFrame {
                 String contenido = new String(Files.readAllBytes(Paths.get(archivoUsuario.getPath())));
                 String[] lineas = contenido.split("\\*");
                 String contrasenaGuardada = lineas[1].split(":")[1].trim();
+                String punt = lineas[2].split(":")[1].trim();
                 if (pass.equals(contrasenaGuardada)) {
                     JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    MenuPrincipal menu = new MenuPrincipal(usuario, punt);
+                    menu.setLocationRelativeTo(null);
+                    this.setVisible(false);
+                    menu.setVisible(true);
+                    
                 } else {
                     JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
                 }

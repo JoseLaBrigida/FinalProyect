@@ -25,6 +25,7 @@ public class Input extends MouseAdapter{
         this.tablero = tablero; // Establece la referencia al tablero.
     }
 
+
     /**
      * Maneja el evento de presionar el ratón, seleccionando una pieza si hay una en la posición clickeada.
      * @param e Evento del ratón que contiene la información del clic.

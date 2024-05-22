@@ -41,4 +41,5 @@ public class Movimiento {
         this.pieza = pieza; // Referencia a la pieza que se mueve.
         this.captura = tablero.getPieza(colNueva, filaNueva); // Almacena cualquier pieza que esté en la posición destino y que será capturada.
     }
+
 }

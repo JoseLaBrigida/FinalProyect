@@ -34,6 +34,7 @@ public class Torre extends Pieza {
         this.sprite = plantillaImagen.getSubimage(4 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla)
             .getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
+    
 
     /**
      * Verifica si el movimiento es válido para la torre.

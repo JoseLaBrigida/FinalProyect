@@ -34,6 +34,7 @@ public class Peon extends Pieza {
         this.sprite = plantillaImagen.getSubimage(5 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla)
             .getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
+    
 
     /**
      * Verifica si el movimiento es válido para el peón.
