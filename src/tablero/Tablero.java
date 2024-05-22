@@ -191,6 +191,7 @@ public class Tablero extends JPanel {
                 for (int col = 0; col < cols; col++) {
                     for (int fila = 0; fila < filas; fila++) {
                         Movimiento movimiento = new Movimiento(this, pieza, col, fila);
+                        piezaSeleccionada = pieza;
                         if (esMovimientoValido(movimiento)) {
                                 movimientosValidos.add(movimiento);
                         }
