@@ -51,7 +51,7 @@ public class Pieza {
     Image sprite;
     
     // Referencia al tablero en el que se encuentra la pieza.
-    Tablero tablero;
+    public Tablero tablero;
     
     /**
      * Constructor para la pieza.
@@ -80,6 +80,12 @@ public class Pieza {
     public boolean movimientoColisionaConPieza(int col, int fila){
         return false; // Por defecto, no hay colisiones (debe ser sobreescrito).
     }
+    
+    public Pieza clonar(){
+        return null;
+    }
+    
+    
     
     /**
      * Método para pintar la pieza en el tablero usando gráficos 2D.

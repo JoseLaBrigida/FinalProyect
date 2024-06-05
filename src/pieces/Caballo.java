@@ -20,12 +20,13 @@ public class Caballo extends Pieza {
      * @param fila La fila inicial del caballo.
      * @param esBlanco Indica si el caballo es blanco o negro.
      */
-    public Caballo(Tablero board, int col, int fila, boolean esBlanco) {
+    public Caballo(Tablero board, int col, int fila, boolean esBlanco, int valor) {
         super(board); // Llama al constructor de la clase base, Pieza.
         this.col = col; // Establece la columna actual del caballo.
         this.fila = fila; // Establece la fila actual del caballo.
         this.xPos = col * board.tamanioTablero; // Calcula la posición x en píxeles en función de la columna.
         this.yPos = fila * board.tamanioTablero; // Calcula la posición y en píxeles en función de la fila.
+        this.valor = valor;
 
         this.esBlanco = esBlanco; // Establece el color del caballo.
         this.nombre = "Caballo"; // Asigna el nombre de la pieza.
@@ -34,6 +35,12 @@ public class Caballo extends Pieza {
         this.sprite = plantillaImagen.getSubimage(3 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla)
             .getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
     }
+    
+    @Override
+    public Pieza clonar() {
+        return new Caballo(this.tablero, this.col, this.fila, this.esBlanco, this.valor);
+    }
+    
 
     /**
      * Verifica si el movimiento es válido para el caballo.

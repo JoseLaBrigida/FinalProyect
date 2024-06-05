@@ -127,7 +127,18 @@ public class Dificultades extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacilActionPerformed
-        // Creamos JFrame y asignamos sus atributos
+        crearTablero(1);
+    }//GEN-LAST:event_btnFacilActionPerformed
+
+    private void btnNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNormalActionPerformed
+        crearTablero(2);
+    }//GEN-LAST:event_btnNormalActionPerformed
+
+    private void btnDificilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDificilActionPerformed
+        crearTablero(3);
+    }//GEN-LAST:event_btnDificilActionPerformed
+
+    private void crearTablero(int tipo){
         JFrame frame = new JFrame();
         frame.getContentPane().setBackground(Color.black);
         frame.setLayout(new GridBagLayout());
@@ -137,7 +148,7 @@ public class Dificultades extends javax.swing.JDialog {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         // Añadimos el tablero al frame
-        Tablero tablero = new Tablero(1);
+        Tablero tablero = new Tablero(tipo);
         GridBagConstraints gbcTablero = new GridBagConstraints();
         gbcTablero.gridx = 0;
         gbcTablero.gridy = 0;
@@ -200,17 +211,11 @@ public class Dificultades extends javax.swing.JDialog {
         
         // Lo ponemos visible
         frame.setVisible(true);
+        
         this.dispose();
-    }//GEN-LAST:event_btnFacilActionPerformed
-
-    private void btnNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNormalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNormalActionPerformed
-
-    private void btnDificilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDificilActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDificilActionPerformed
-
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDificil;
     private javax.swing.JButton btnFacil;

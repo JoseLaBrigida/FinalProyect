@@ -12,7 +12,7 @@ import movimientos.Movimiento;
  *
  * @author Jose Fernandez Cobo
  */
-public class King extends Pieza {
+public class Rey extends Pieza {
 
     /**
      * Constructor para el rey.
@@ -21,12 +21,13 @@ public class King extends Pieza {
      * @param fila La fila inicial del rey.
      * @param esBlanco Indica si el rey es blanco o negro.
      */
-    public King(Tablero board, int col, int fila, boolean esBlanco) {
+    public Rey(Tablero board, int col, int fila, boolean esBlanco, int valor) {
         super(board); // Llama al constructor de la clase base, Pieza.
         this.col = col; // Establece la columna actual del rey.
         this.fila = fila; // Establece la fila actual del rey.
         this.xPos = col * board.tamanioTablero; // Calcula la posición x en píxeles en función de la columna.
         this.yPos = fila * board.tamanioTablero; // Calcula la posición y en píxeles en función de la fila.
+        this.valor = valor;
 
         this.esBlanco = esBlanco; // Establece el color del rey.
         this.nombre = "Rey"; // Asigna el nombre de la pieza.
@@ -34,6 +35,11 @@ public class King extends Pieza {
         // Configura la imagen de la pieza utilizando una subimagen de la plantilla de imágenes.
         this.sprite = plantillaImagen.getSubimage(0 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla)
             .getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
+    }
+    
+    @Override
+    public Pieza clonar() {
+        return new Rey(this.tablero, this.col, this.fila, this.esBlanco, this.valor);
     }
 
     /**

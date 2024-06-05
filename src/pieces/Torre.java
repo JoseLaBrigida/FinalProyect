@@ -20,12 +20,13 @@ public class Torre extends Pieza {
      * @param fila La fila inicial de la torre.
      * @param esBlanco Indica si la torre es blanca o negra.
      */
-    public Torre(Tablero board, int col, int fila, boolean esBlanco) {
+    public Torre(Tablero board, int col, int fila, boolean esBlanco, int valor) {
         super(board); // Llama al constructor de la clase base, Pieza.
         this.col = col; // Establece la columna actual de la torre.
         this.fila = fila; // Establece la fila actual de la torre.
         this.xPos = col * board.tamanioTablero; // Calcula la posición x en píxeles en función de la columna.
         this.yPos = fila * board.tamanioTablero; // Calcula la posición y en píxeles en función de la fila.
+        this.valor = valor;
 
         this.esBlanco = esBlanco; // Establece el color de la torre.
         this.nombre = "Torre"; // Asigna el nombre de la pieza.
@@ -45,6 +46,11 @@ public class Torre extends Pieza {
     public boolean esMovimientoValido(int col, int fila){
         // Permite movimiento en cualquier dirección horizontal o vertical.
         return this.col == col || this.fila == fila;
+    }
+    
+    @Override
+    public Pieza clonar() {
+        return new Torre(this.tablero, this.col, this.fila, this.esBlanco, this.valor);
     }
 
     /**

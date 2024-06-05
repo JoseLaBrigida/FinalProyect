@@ -20,12 +20,13 @@ public class Reina extends Pieza {
      * @param fila La fila inicial de la reina.
      * @param esBlanco Indica si la reina es blanca o negra.
      */
-    public Reina(Tablero board, int col, int fila, boolean esBlanco) {
+    public Reina(Tablero board, int col, int fila, boolean esBlanco, int valor) {
         super(board); // Llama al constructor de la clase base, Pieza.
         this.col = col; // Establece la columna actual de la reina.
         this.fila = fila; // Establece la fila actual de la reina.
         this.xPos = col * board.tamanioTablero; // Calcula la posición x en píxeles en función de la columna.
         this.yPos = fila * board.tamanioTablero; // Calcula la posición y en píxeles en función de la fila.
+        this.valor = valor;
 
         this.esBlanco = esBlanco; // Establece el color de la reina.
         this.nombre = "Reina"; // Asigna el nombre de la pieza.
@@ -45,6 +46,11 @@ public class Reina extends Pieza {
     public boolean esMovimientoValido(int col, int fila) {
         // Permite movimiento en cualquier dirección, tanto en líneas rectas como en diagonales.
         return this.col == col || this.fila == fila || Math.abs(this.col - col) == Math.abs(this.fila - fila);
+    }
+    
+    @Override
+    public Pieza clonar() {
+        return new Reina(this.tablero, this.col, this.fila, this.esBlanco, this.valor);
     }
 
     /**

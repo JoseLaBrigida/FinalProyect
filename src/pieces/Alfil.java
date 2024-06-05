@@ -20,12 +20,13 @@ public class Alfil extends Pieza {
      * @param fila La fila inicial del alfil.
      * @param esBlanco Indica si el alfil es blanco o negro.
      */
-    public Alfil(Tablero board, int col, int fila, boolean esBlanco) {
+    public Alfil(Tablero board, int col, int fila, boolean esBlanco, int valor) {
         super(board); // Llama al constructor de la clase base, Pieza.
         this.col = col; // Establece la columna actual del alfil.
         this.fila = fila; // Establece la fila actual del alfil.
         this.xPos = col * board.tamanioTablero; // Calcula la posición x en píxeles en función de la columna.
         this.yPos = fila * board.tamanioTablero; // Calcula la posición y en píxeles en función de la fila.
+        this.valor = valor;
 
         this.esBlanco = esBlanco; // Establece el color del alfil.
         this.nombre = "Alfil"; // Asigna el nombre de la pieza.
@@ -44,6 +45,11 @@ public class Alfil extends Pieza {
     public boolean esMovimientoValido(int col, int fila){
         // Verifica que el movimiento sea estrictamente diagonal.
         return Math.abs(this.col - col) == Math.abs(this.fila - fila);
+    }
+    
+    @Override
+    public Pieza clonar() {
+        return new Alfil(this.tablero, this.col, this.fila, this.esBlanco, this.valor);
     }
 
     /**

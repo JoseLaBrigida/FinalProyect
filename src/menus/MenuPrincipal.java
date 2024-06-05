@@ -285,7 +285,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // Lo ponemos visible
         frame.setVisible(true);
 
-
         
     }//GEN-LAST:event_btnIJugadorActionPerformed
 

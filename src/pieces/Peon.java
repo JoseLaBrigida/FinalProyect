@@ -20,12 +20,13 @@ public class Peon extends Pieza {
      * @param fila La fila inicial del peón.
      * @param esBlanco Indica si el peón es blanco o negro.
      */
-    public Peon(Tablero board, int col, int fila, boolean esBlanco) {
+    public Peon(Tablero board, int col, int fila, boolean esBlanco, int valor) {
         super(board); // Llama al constructor de la clase base, Pieza.
         this.col = col; // Establece la columna actual del peón.
         this.fila = fila; // Establece la fila actual del peón.
         this.xPos = col * board.tamanioTablero; // Calcula la posición x en píxeles en función de la columna.
         this.yPos = fila * board.tamanioTablero; // Calcula la posición y en píxeles en función de la fila.
+        this.valor = valor;
 
         this.esBlanco = esBlanco; // Establece el color del peón.
         this.nombre = "Peon"; // Asigna el nombre de la pieza.
@@ -33,6 +34,11 @@ public class Peon extends Pieza {
         // Configura la imagen de la pieza utilizando una subimagen de la plantilla de imágenes.
         this.sprite = plantillaImagen.getSubimage(5 * escalaPlantilla, esBlanco ? 0 : escalaPlantilla, escalaPlantilla, escalaPlantilla)
             .getScaledInstance(board.tamanioTablero, board.tamanioTablero, BufferedImage.SCALE_SMOOTH);
+    }
+    
+    @Override
+    public Pieza clonar() {
+        return new Peon(this.tablero, this.col, this.fila, this.esBlanco, this.valor);
     }
     
 
