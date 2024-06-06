@@ -1,3 +1,0 @@
-usuario: lele*
-contraseña: 1234*
-puntuacion: 0*

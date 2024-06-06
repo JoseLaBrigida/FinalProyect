@@ -1,3 +1,0 @@
-usuario: jose1*
-contraseña: 234324*
-puntuacion: 0*

@@ -48,7 +48,7 @@ public class Tablero extends JPanel {
     public boolean jugadorEsBlanco = true;
     public ComprobadorJaque comprobadorJaque = new ComprobadorJaque(this);
     private Stack<EstadoMovimiento> historialMovimientos = new Stack<>();
-    private static final int PROFUNDIDAD_MINIMAX = 100;
+    private static final int PROFUNDIDAD_MINIMAX = 3;
     private int movimientosIniciales = 0;
     private List<Movimiento> movimientosApertura;
     // Definir aperturas
@@ -130,6 +130,7 @@ public class Tablero extends JPanel {
         { 8, 12, 14, 14, 14, 14, 12, 8 },
         { 5, 8,   9,  9,  9,  9,  8, 5 }
     };
+    private boolean movimientoSimulado;
     
     public Tablero(int tipo) {
         this.setPreferredSize(new Dimension(cols * tamanioTablero, filas * tamanioTablero));
@@ -415,109 +416,87 @@ public class Tablero extends JPanel {
     }
 
     private Movimiento obtenerMejorMovimientoMinimax(int profundidad) {
-    List<Movimiento> movimientosValidos = obtenerMovimientosValidos(!jugadorEsBlanco);
-    Movimiento mejorMovimiento = null;
-    double valorAlto = Double.NEGATIVE_INFINITY; // Asegurarse de iniciar con el menor valor posible
-    double valorBajo = Double.POSITIVE_INFINITY;
-    double valor;
-    
-    
-    System.out.println(esTurnoBlanca + " pensando en profundidad: " + profundidad);
+        List<Movimiento> movimientosValidos = obtenerMovimientosValidos(!jugadorEsBlanco);
+        Movimiento mejorMovimiento = null;
+        double valorAlto = Double.NEGATIVE_INFINITY; // Asegurarse de iniciar con el menor valor posible
+        double valorBajo = Double.POSITIVE_INFINITY;
+        double valor;
 
-    for (Movimiento movimiento : movimientosValidos) {
-        hacerMovimiento(movimiento);
-        
-        valor = jugadorEsBlanco ? 
-                min(profundidad - 1) :
-                max(profundidad - 1);
-        
-        if(jugadorEsBlanco && valor >= valorAlto){
-            valorAlto = valor;
-            mejorMovimiento = movimiento;
-                    
-            
-        } else if(!jugadorEsBlanco && valor <= valorBajo){
-            valorBajo = valor;
-            mejorMovimiento = movimiento;
-        }
-        
-        deshacerMovimiento();
-    }
+        movimientoSimulado = true;
 
-    return mejorMovimiento;
-}
-    
-    private double minimax(int profundidad, boolean esMaximizador) {
-        if (profundidad == 0 || isGameOver) {
-            return evaluarTablero();  // Evalúa el tablero para determinar su valor heurístico
-        }
+        for (Movimiento movimiento : movimientosValidos) {
+            hacerMovimiento(movimiento);
+            valor = jugadorEsBlanco ? min(profundidad - 1) : max(profundidad - 1);
 
-        List<Movimiento> movimientosValidos = obtenerMovimientosValidos(esMaximizador ? jugadorEsBlanco : !jugadorEsBlanco);
-        double evaluacion;
-
-        if (esMaximizador) {
-            evaluacion = Double.NEGATIVE_INFINITY;  // Inicializa para la maximización
-            for (Movimiento movimiento : movimientosValidos) {
-                hacerMovimiento(movimiento);  // Realiza el movimiento en el tablero
-                evaluacion = Math.max(evaluacion, minimax(profundidad - 1, false));  // Llama recursivamente como minimizador
-                deshacerMovimiento();  // Restaura el tablero a su estado anterior
+            if (jugadorEsBlanco && valor > valorAlto) {
+                valorAlto = valor;
+                mejorMovimiento = movimiento;
+            } else if (!jugadorEsBlanco && valor < valorBajo) {
+                valorBajo = valor;
+                mejorMovimiento = movimiento;
             }
-            return evaluacion;  // Retorna el mejor valor evaluado
-        } else {
-            evaluacion = Double.POSITIVE_INFINITY;  // Inicializa para la minimización
-            for (Movimiento movimiento : movimientosValidos) {
-                hacerMovimiento(movimiento);  // Realiza el movimiento en el tablero
-                evaluacion = Math.min(evaluacion, minimax(profundidad - 1, true));  // Llama recursivamente como maximizador
-                deshacerMovimiento();  // Restaura el tablero a su estado anterior
-            }
-            return evaluacion;  // Retorna el mejor valor evaluado
-        }
-    }
 
+            deshacerMovimiento();
+        }
+
+        movimientoSimulado = false;
+
+        return mejorMovimiento;
+    }
     
     private double min(int profundidad) {
         if (profundidad == 0 || isGameOver) {
-            return evaluarTablero();  // Evalúa el tablero para determinar su valor heurístico
+            return evaluarTablero();
         }
 
+        System.out.println(esTurnoBlanca + " pensando en profundidad: " + profundidad);
+        
         List<Movimiento> movimientosValidos = obtenerMovimientosValidos(false);
-        double evaluacionMin;
+        double evaluacionMin = Double.POSITIVE_INFINITY;
 
-        evaluacionMin = Double.POSITIVE_INFINITY;  // Inicializa para la minimización
         for (Movimiento movimiento : movimientosValidos) {
-            hacerMovimiento(movimiento);  // Realiza el movimiento en el tablero
-            double evaluacionActual = max(profundidad - 1);  // Llama recursivamente como maximizador
-            deshacerMovimiento();  // Restaura el tablero a su estado anterior
-            
-            if(evaluacionActual <= evaluacionMin){
-                evaluacionMin = evaluacionActual;
-            }
-        }
-        return evaluacionMin;  // Retorna el mejor valor evaluado
+            hacerMovimiento(movimiento);
 
+            if (comprobadorJaque.esJaqueMate(encontrarRey(false))) {
+                evaluacionMin = -1000000;
+            } else if (comprobadorJaque.reyJaque(movimiento)) {
+                evaluacionMin = Math.min(evaluacionMin, -200 + max(profundidad - 1));
+            } else {
+                evaluacionMin = Math.min(evaluacionMin, max(profundidad - 1));
+            }
+
+            deshacerMovimiento();
+        }
+        return evaluacionMin;
     }
-    
+
     private double max(int profundidad) {
         if (profundidad == 0 || isGameOver) {
-            return evaluarTablero();  // Evalúa el tablero para determinar su valor heurístico
+            return evaluarTablero();
         }
+        
+        System.out.println(esTurnoBlanca + " pensando en profundidad: " + profundidad);
 
         List<Movimiento> movimientosValidos = obtenerMovimientosValidos(true);
-        double evaluacionMax;
+        double evaluacionMax = Double.NEGATIVE_INFINITY;
 
-        evaluacionMax = Double.NEGATIVE_INFINITY;  // Inicializa para la minimización
         for (Movimiento movimiento : movimientosValidos) {
-            hacerMovimiento(movimiento);  // Realiza el movimiento en el tablero
-            double evaluacionActual = min(profundidad - 1);  // Llama recursivamente como maximizador
-            deshacerMovimiento();  // Restaura el tablero a su estado anterior
-            
-            if(evaluacionActual >= evaluacionMax){
-                evaluacionMax = evaluacionActual;
-            }
-        }
-        return evaluacionMax;  // Retorna el mejor valor evaluado
+            hacerMovimiento(movimiento);
 
+            if (comprobadorJaque.esJaqueMate(encontrarRey(true))) {
+                evaluacionMax = 1000000;
+            } else if (comprobadorJaque.reyJaque(movimiento)) {
+                evaluacionMax = Math.max(evaluacionMax, 200 + min(profundidad - 1));
+            } else {
+                evaluacionMax = Math.max(evaluacionMax, min(profundidad - 1));
+            }
+
+            deshacerMovimiento();
+        }
+        
+        return evaluacionMax;
     }
+
 
 
     private void deshacerMovimiento() {
@@ -629,10 +608,13 @@ public class Tablero extends JPanel {
         }
     }
 
-    private void peonPromovido(Movimiento move) {
-        listaPiezas.add(new Reina(this, move.colNueva, move.filaNueva, move.pieza.esBlanco, 9));
-        captura(move.pieza);
+    private void peonPromovido(Movimiento move) {   
+        if(!movimientoSimulado){
+          listaPiezas.add(new Reina(this, move.colNueva, move.filaNueva, move.pieza.esBlanco, 900));
+          captura(move.pieza);  
+        }   
     }
+
 
     public void captura(Movimiento move) {
         listaPiezas.remove(move.captura);
